@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Weekly Schedule - Grid</title>
+<style>
+  :root{
+    --gap: 14px;
+    --side-width: 120px;
+    --times: 9; /* number of time columns (08:00..16:00) */
+    --pill-radius: 18px;
+    --bg:#f7fbfb;
+    --accent1:#f7e6ff;
+    --accent2:#fff3d7;
+    --accent3:#e6f9f2;
+    --accent4:#e8f0ff;
+    --text:#222;
+  }
+
+  body{
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--bg);
+    margin: 24px;
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+  }
+
+  .card{
+    width: 940px;
+    background: white;
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: 0 8px 28px rgba(30,30,30,0.06);
+  }
+
+  .title{
+    font-family: "Pacifico", "Segoe UI", sans-serif;
+    font-size: 44px;
+    color: #2b2b2b;
+    margin-bottom: 18px;
+    letter-spacing: 1px;
+  }
+
+  /* main grid: first column for day labels, next columns for times, last row for time labels */
+  .schedule{
+    display: grid;
+    grid-template-columns: var(--side-width) repeat(var(--times), 1fr);
+    grid-template-rows: repeat(5, 86px) 64px; /* 5 days + time row */
+    gap: var(--gap);
+    align-items: center;
+  }
+
+  /* Day label column */
+  .day{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:700;
+    font-size:14px;
+  }
+
+  .day .pill{
+    background: linear-gradient(180deg,#ffeef6,#f4e6ff);
+    border-radius: 18px;
+    width: 84px;
+    height: 42px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+  }
+
+  /* cells area: each slot is a rounded pill */
+  .slot{
+    height: 56px;
+    border-radius: var(--pill-radius);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color: white;
+    font-weight:700;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+  }
+
+  /* pastel palette across columns */
+  .slot:nth-child(9n+1){ background: #e7f8ff; color:#105b6a; } /* light-teal */
+  .slot:nth-child(9n+2){ background: #fff2d9; color:#6b3a00; } /* light-yellow */
+  .slot:nth-child(9n+3){ background: #f5e8ff; color:#4b1a73; } /* light-lavender */
+  .slot:nth-child(9n+4){ background: #e9f9ee; color:#166936; } /* light-green */
+  .slot:nth-child(9n+5){ background: #e9f0ff; color:#153a86; } /* light-blue */
+  .slot:nth-child(9n+6){ background: #fff0f0; color:#7a2a2a; } /* light-peach */
+  .slot:nth-child(9n+7){ background: #f0fff6; color:#0f6b3f; } /* mint */
+  .slot:nth-child(9n+8){ background: #fff7f0; color:#7a4a00; } /* sand */
+  .slot:nth-child(9n+9){ background: #f7f0ff; color:#4b2a7a; } /* lilac */
+
+  /* bottom row: time labels */
+  .time-row{
+    grid-column: 2 / span var(--times);
+    display: grid;
+    grid-template-columns: repeat(var(--times), 1fr);
+    gap: var(--gap);
+    align-items:center;
+  }
+
+  .time{
+    height: 48px;
+    border-radius: 22px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:700;
+    background: linear-gradient(180deg,#dbf7f3,#dff7ff);
+    color:#0a6a70;
+    box-shadow: 0 6px 18px rgba(6,60,60,0.04);
+    font-size:13px;
+  }
+
+  /* make sure day column occupies rows properly */
+  /* We'll place day labels using grid-area names in HTML to keep it explicit */
+  @media (max-width:1024px){
+    .card{ width: 92%; padding:18px; }
+    .schedule{ grid-template-columns: 88px repeat(var(--times), 1fr); grid-template-rows: repeat(5, 72px) 58px; }
+  }
+
+  @media (max-width:720px){
+    :root{ --times:6; } /* reduce columns on narrow screens */
+    .schedule{ grid-template-columns: 76px repeat(var(--times), 1fr); grid-template-rows: repeat(5, 68px) 56px; }
+    .time{ font-size:12px; }
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="title">Weekly schedule</div>
+
+    <div class="schedule" role="table" aria-label="Weekly schedule">
+      <!-- Row 1 (Monday) -->
+      <div class="day" style="grid-column:1; grid-row:1;">
+        <div class="pill">Monday</div>
+      </div>
+      <!-- 9 time slots for Monday -->
+      <div class="slot" style="grid-column:2; grid-row:1;">08:00</div>
+      <div class="slot" style="grid-column:3; grid-row:1;">09:00</div>
+      <div class="slot" style="grid-column:4; grid-row:1;">10:00</div>
+      <div class="slot" style="grid-column:5; grid-row:1;">11:00</div>
+      <div class="slot" style="grid-column:6; grid-row:1;">12:00</div>
+      <div class="slot" style="grid-column:7; grid-row:1;">13:00</div>
+      <div class="slot" style="grid-column:8; grid-row:1;">14:00</div>
+      <div class="slot" style="grid-column:9; grid-row:1;">15:00</div>
+
+      <!-- Row 2 (Tuesday) -->
+      <div class="day" style="grid-column:1; grid-row:2;">
+        <div class="pill">Tuesday</div>
+      </div>
+      <div class="slot" style="grid-column:2; grid-row:2;"></div>
+      <div class="slot" style="grid-column:3; grid-row:2;"></div>
+      <div class="slot" style="grid-column:4; grid-row:2;"></div>
+      <div class="slot" style="grid-column:5; grid-row:2;"></div>
+      <div class="slot" style="grid-column:6; grid-row:2;"></div>
+      <div class="slot" style="grid-column:7; grid-row:2;"></div>
+      <div class="slot" style="grid-column:8; grid-row:2;"></div>
+      <div class="slot" style="grid-column:9; grid-row:2;"></div>
+
+      <!-- Row 3 (Wednesday) -->
+      <div class="day" style="grid-column:1; grid-row:3;">
+        <div class="pill">Wednesday</div>
+      </div>
+      <div class="slot" style="grid-column:2; grid-row:3;"></div>
+      <div class="slot" style="grid-column:3; grid-row:3;"></div>
+      <div class="slot" style="grid-column:4; grid-row:3;"></div>
+      <div class="slot" style="grid-column:5; grid-row:3;"></div>
+      <div class="slot" style="grid-column:6; grid-row:3;"></div>
+      <div class="slot" style="grid-column:7; grid-row:3;"></div>
+      <div class="slot" style="grid-column:8; grid-row:3;"></div>
+      <div class="slot" style="grid-column:9; grid-row:3;"></div>
+
+      <!-- Row 4 (Thursday) -->
+      <div class="day" style="grid-column:1; grid-row:4;">
+        <div class="pill">Thursday</div>
+      </div>
+      <div class="slot" style="grid-column:2; grid-row:4;"></div>
+      <div class="slot" style="grid-column:3; grid-row:4;"></div>
+      <div class="slot" style="grid-column:4; grid-row:4;"></div>
+      <div class="slot" style="grid-column:5; grid-row:4;"></div>
+      <div class="slot" style="grid-column:6; grid-row:4;"></div>
+      <div class="slot" style="grid-column:7; grid-row:4;"></div>
+      <div class="slot" style="grid-column:8; grid-row:4;"></div>
+      <div class="slot" style="grid-column:9; grid-row:4;"></div>
+
+      <!-- Row 5 (Friday) -->
+      <div class="day" style="grid-column:1; grid-row:5;">
+        <div class="pill">Friday</div>
+      </div>
+      <div class="slot" style="grid-column:2; grid-row:5;"></div>
+      <div class="slot" style="grid-column:3; grid-row:5;"></div>
+      <div class="slot" style="grid-column:4; grid-row:5;"></div>
+      <div class="slot" style="grid-column:5; grid-row:5;"></div>
+      <div class="slot" style="grid-column:6; grid-row:5;"></div>
+      <div class="slot" style="grid-column:7; grid-row:5;"></div>
+      <div class="slot" style="grid-column:8; grid-row:5;"></div>
+      <div class="slot" style="grid-column:9; grid-row:5;"></div>
+
+      <!-- bottom time labels row -->
+      <div class="time-row" style="grid-column:2 / span 8; grid-row:6;">
+        <div class="time">08:00</div>
+        <div class="time">09:00</div>
+        <div class="time">10:00</div>
+        <div class="time">11:00</div>
+        <div class="time">12:00</div>
+        <div class="time">13:00</div>
+        <div class="time">14:00</div>
+        <div class="time">15:00</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
